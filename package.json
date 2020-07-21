@@ -1,0 +1,23 @@
+{
+  "name": "hqtrivia-api-v2",
+  "version": "1.0.0",
+  "description": "Github user Jsopn's hqtrivia api, but with improvements and updates",
+  "main": "index.js",
+  "repository": "https://github.com/Element21/hqtrivia-api-v2.git",
+  "keywords": [
+    "HQ",
+    "Trivia",
+    "HQ Trivia",
+    "API Wrapper"
+  ],
+  "author": "Aiden Marchiori <aiden@alanmarian.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "axios": "^0.19.2",
+    "ws": "^7.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}
