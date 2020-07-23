@@ -11,6 +11,7 @@ class HQTrivia extends EventEmitter {
             'x-hq-country': 'US',
             'x-hq-lang': 'en',
             'x-hq-timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+            'accept-encoding': 'identity',
             ...this.token ? {'authorization': `Bearer ${token}`} : {}
         }
         this.axios = axios.create({
@@ -23,11 +24,13 @@ class HQTrivia extends EventEmitter {
 
     setToken(token) {
         this.headers = {
+            'user-agent': 'Android/1.49.9',
             'x-hq-client': 'Android/1.49.9',
             'x-hq-country': 'US',
             'x-hq-lang': 'en',
             'x-hq-timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-            'authorization': `Bearer ${token}`
+            'authorization': `Bearer ${token}`,
+            'accept-encoding': 'identity'
         }
         this.token = token
     }
@@ -84,9 +87,10 @@ class HQTrivia extends EventEmitter {
         switch (registerRes.data.errorCode) {
             case 101:
                 throw new Error('Username already registred')
-
             case 471:
                 throw new Error('Username too long')
+            case 465:
+            case 429:
         }
 
         if (registerRes.data.accessToken) {
@@ -158,12 +162,11 @@ class HQTrivia extends EventEmitter {
         return checkUsernameResp.data
     }
 
-    // !!! DOES NOT WORK !!!
-    // async easterEgg(type = 'makeItRain') {
-    //   if (!this.token) throw new Error('This method cannot be used without authorization')
-    //   const easterEggResp = await this.axios.post(`/easter-eggs/${type}`)
-    //   return easterEggResp.data
-    // }
+    async easterEgg(type = 'makeItRain') {
+        if (!this.token) throw new Error('This method cannot be used without authorization')
+        const easterEggResp = await this.axios.post(`/easter-eggs/${type}`)
+        return easterEggResp.data
+    }
 
     async searchUsers(query) {
         if (!this.token) throw new Error('This method cannot be used without authorization')
@@ -340,18 +343,14 @@ class HQTrivia extends EventEmitter {
         })
 
         this.WSConn.on('message', (rawData) => {
-            try {
-                const data = JSON.parse(rawData)
-                this.emit('message', data)
-                this.emit(data.type, {
-                    ...data,
-                    lastQuestion: this.lastQuestion
-                })
-                if (data.type === 'question' || data.type === 'startRound') {
-                    this.lastQuestion = data
-                }
-            } catch (e) {
-                this.emit('error', 'Failed parse WS Message')
+            const data = JSON.parse(rawData)
+            this.emit('message', data)
+            this.emit(data.type, {
+                ...data,
+                lastQuestion: this.lastQuestion
+            })
+            if (data.type === 'question' || data.type === 'startRound') {
+                this.lastQuestion = data
             }
         })
 

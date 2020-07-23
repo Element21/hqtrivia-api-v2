@@ -28,6 +28,7 @@ This is a Node.JS wrapper for HQ Trivia
 - `hq.changeUsername(username)` - Change username
 - `hq.checkUsername(username)` - Check username
 - `hq.makePayout(email)` - Make payout (Have not tested. I think hq uses a captcha for payouts. WILL FIX LATER)
+- `hq.easterEgg()` - Gives you extra life (You can only use every 30 days)
 
 ## Registration methods
 - `hq.sendCode(phone, [method])` - Sends the code to the specified phone
@@ -129,14 +130,14 @@ if (response.accountRegistred) {
     console.log(`token: ${response.token}`)
     hq.setToken(response.token)
 } else {
-    const token = await hq.register('jsoplox', 'machuita')
+    const token = await hq.register('name1', 'name2')
     console.log(`token: ${token}`)
     hq.setToken(token)
 }
 ```
 ## Todo
+- Add Daily Challenge ("offlineTrivia")
 - Get link to video when joining game
-- Add a "onGame" event to wait until a game starts
 - Add chat support
 - Add referral codes to account after logging in
 - Update some ws stuff
