@@ -29,6 +29,7 @@ This is a Node.JS wrapper for HQ Trivia
 - `hq.checkUsername(username)` - Check username
 - `hq.makePayout(email)` - Make payout (Have not tested. I think hq uses a captcha for payouts. WILL FIX LATER)
 - `hq.easterEgg()` - Gives you extra life (You can only use every 30 days)
+- `hq.addReferral(referralCode, gameType ['general' = trivia referral, 'sports' = sports referral, 'words' = words referral])` - Add a referral code to an account after register/login
 
 ## Registration methods
 - `hq.sendCode(phone, [method])` - Sends the code to the specified phone
@@ -124,7 +125,7 @@ hq.on('disconnected', (code) => {
 const HQTrivia = require('hqtrivia-api')
 const hq = new HQTrivia()
 
-await hq.sendCode('+11111111111')
+await hq.sendCode('+11111111111', [referral code])
 const response = await hq.confirmCode('0228')
 if (response.accountRegistred) {
     console.log(`token: ${response.token}`)
@@ -139,6 +140,7 @@ if (response.accountRegistred) {
 - Add Daily Challenge ("offlineTrivia")
 - Get link to video when joining game
 - Add chat support
-- Add referral codes to account after logging in
+- Add app notification support
+- Add referral codes to account after logging in ✓
 - Update some ws stuff
 - Add some EPIC tests
