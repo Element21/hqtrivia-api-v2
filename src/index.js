@@ -1,5 +1,5 @@
 const axios = require('axios')
-const { EventEmitter } = require('events')
+const {EventEmitter} = require('events')
 const WebSocket = require('ws')
 
 class HQTrivia extends EventEmitter {
@@ -12,7 +12,7 @@ class HQTrivia extends EventEmitter {
             'x-hq-country': 'US',
             'x-hq-lang': 'en',
             'x-hq-timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-            ...this.token ? { 'authorization': `Bearer ${token}` } : {},
+            ...this.token ? {'authorization': `Bearer ${token}`} : {},
             'accept-encoding': 'identity'
         }
         this.axios = axios.create({
@@ -72,7 +72,7 @@ class HQTrivia extends EventEmitter {
                 token: confirmCodeRes.data.auth.accessToken
             }
         } else {
-            throw new { error: 'Unknown API Error' }
+            throw new {error: 'Unknown API Error'}
         }
     }
 
@@ -92,7 +92,7 @@ class HQTrivia extends EventEmitter {
         if (registerRes.data.accessToken) {
             return registerRes.data.accessToken
         } else {
-            return { error: 'Unknown API Error' }
+            return {error: 'Unknown API Error'}
         }
     }
 
@@ -198,8 +198,8 @@ class HQTrivia extends EventEmitter {
     }
 
     sendAnswer(answerID, questionId) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
-        if (this.gameType !== 'trivia') return { error: 'You can not send a letter because this game is not Trivia' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
+        if (this.gameType !== 'trivia') return {error: 'You can not send a letter because this game is not Trivia'}
         this.WSConn.send(JSON.stringify({
             questionId: parseInt(questionId),
             type: 'answer',
@@ -208,8 +208,8 @@ class HQTrivia extends EventEmitter {
     }
 
     sendSurveyAnswer(answerID, questionId) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
-        if (this.gameType !== 'trivia') return { error: 'You can not send a letter because this game is not Trivia' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
+        if (this.gameType !== 'trivia') return {error: 'You can not send a letter because this game is not Trivia'}
         this.WSConn.send(JSON.stringify({
             surveyQuestionId: parseInt(questionId),
             type: 'surveyAnswer',
@@ -219,8 +219,8 @@ class HQTrivia extends EventEmitter {
     }
 
     sendEraser(questionId) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
-        if (this.gameType !== 'trivia') return { error: 'You can not send a letter because this game is not Trivia' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
+        if (this.gameType !== 'trivia') return {error: 'You can not send a letter because this game is not Trivia'}
         this.WSConn.send(JSON.stringify({
             type: 'erase1',
             broadcastId: this.broadcastId,
@@ -229,8 +229,8 @@ class HQTrivia extends EventEmitter {
     }
 
     checkpoint(winNow, checkpointId) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
-        if (this.gameType !== 'trivia') return { error: 'You can not send a letter because this game is not Trivia' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
+        if (this.gameType !== 'trivia') return {error: 'You can not send a letter because this game is not Trivia'}
         this.WSConn.send(JSON.stringify({
             type: 'checkpointResponse',
             broadcastId: this.broadcastId,
@@ -240,8 +240,8 @@ class HQTrivia extends EventEmitter {
     }
 
     useExtralife(questionId) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
-        if (this.gameType !== 'trivia') return { error: 'You can not send a letter because this game is not Trivia' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
+        if (this.gameType !== 'trivia') return {error: 'You can not send a letter because this game is not Trivia'}
         this.WSConn.send(JSON.stringify({
             type: 'useExtraLife',
             questionId: parseInt(questionId)
@@ -249,7 +249,7 @@ class HQTrivia extends EventEmitter {
     }
 
     sendLetter(roundId, showId, letter) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
         if (this.gameType !== 'words') return {error: 'You can not send a letter because this game is not Words'}
         this.WSConn.send(JSON.stringify({
             roundId: parseInt(roundId),
@@ -260,7 +260,7 @@ class HQTrivia extends EventEmitter {
     }
 
     sendWord(roundId, showId, word) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
         if (this.gameType !== 'words') return {error: 'You can not send a letter because this game is not Words'}
         const letters = word.split('')
         letters.forEach((letter) => {
@@ -269,7 +269,7 @@ class HQTrivia extends EventEmitter {
     }
 
     getErasers(friendIds) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
         this.WSConn.send(JSON.stringify({
             type: 'erase1Earned',
             broadcastId: this.broadcastId,
@@ -278,7 +278,7 @@ class HQTrivia extends EventEmitter {
     }
 
     chatVisibility(enable) {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
         this.WSConn.send(JSON.stringify({
             type: 'chatVisibilityToggled',
             broadcastId: this.broadcastId,
@@ -291,13 +291,13 @@ class HQTrivia extends EventEmitter {
         return referralRes.data
     }
 
-    async isValidReferral(referralCode) {
+    async checkReferral(referralCode) {
         const sendCheck = await this.axios.post('/referral-code/valid', {
             referralCode: referralCode
         })
         return !sendCheck.data.error
     }
-    
+
     async setReferral(referralCode, gameType) {
         const sendReferral = await this.axios.post(`/show-referrals/$(gameType)`, {
             username: referralCode
@@ -312,7 +312,7 @@ class HQTrivia extends EventEmitter {
     async connectToGame() {
         let shows = {}
         shows = await this.getShows()
-        if (!shows.active) return { error: 'Game is not active' }
+        if (!shows.active) return {error: 'Game is not active'}
 
         this.WSConn = new WebSocket(shows.broadcast.socketUrl, {
             headers: this.headers
@@ -358,7 +358,7 @@ class HQTrivia extends EventEmitter {
     }
 
     async disconnectFromGame() {
-        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return { error: 'You are not connected to the game' }
+        if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
         this.WSConn.close()
     }
 }

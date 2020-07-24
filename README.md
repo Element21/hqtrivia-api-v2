@@ -2,14 +2,16 @@
 Please open an issue if you find any broken stuff
 
 ## HQ Trivia API
-This is a Node.JS wrapper for HQ Trivia
+This is a Node.JS wrapper for HQ Trivia's API
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 [![forthebadge](https://forthebadge.com/images/badges/designed-in-ms-paint.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/as-seen-on-tv.svg)](https://forthebadge.com)
 
 ## Installation
-`npm i hqtrivia-api`
+`npm i hqtrivia-api-v2`
+-or-
+`yarn add hqtrivia-api-v2` (preferred)
 
 ## API Methods
 - `hq.getUserData()` - Get the authenticated user data
@@ -29,7 +31,8 @@ This is a Node.JS wrapper for HQ Trivia
 - `hq.checkUsername(username)` - Check username
 - `hq.makePayout(email)` - Make payout (Have not tested. I think hq uses a captcha for payouts. WILL FIX LATER)
 - `hq.easterEgg()` - Gives you extra life (You can only use every 30 days)
-- `hq.addReferral(referralCode, gameType ['general' = trivia referral, 'sports' = sports referral, 'words' = words referral])` - Add a referral code to an account after register/login
+- `hq.setReferral(referralCode, gameType ['general' = trivia referral, 'sports' = sports referral, 'words' = words referral])` - Add a referral code to an account after register/login
+- `hq.checkReferral()` - Check if a referral code is valid
 
 ## Registration methods
 - `hq.sendCode(phone, [method])` - Sends the code to the specified phone
@@ -141,6 +144,5 @@ if (response.accountRegistred) {
 - Get link to video when joining game
 - Add chat support
 - Add app notification support
-- Add referral codes to account after logging in ✓
 - Update some ws stuff
 - Add some EPIC tests
