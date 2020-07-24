@@ -82,7 +82,7 @@ Most functions in this api wrapper return raw JSON responses, If any errors occu
 
 ## Trivia Example
 ```js
-const HQTrivia = require('hqtrivia-api')
+const HQTrivia = require('hqtrivia-api-v2')
 const hq = new HQTrivia('[token]')
 
 hq.connectToGame()
@@ -106,7 +106,7 @@ hq.on('disconnected', (code) => {
 
 ## Words Example
 ```js
-const HQTrivia = require('hqtrivia-api')
+const HQTrivia = require('hqtrivia-api-v2')
 const hq = new HQTrivia('[token]')
 
 hq.connectToGame()
@@ -139,7 +139,7 @@ hq.on('disconnected', (code) => {
 
 ## Daily Trivia Example
 ```js
-const HQTrivia = require('hqtrivia-api')
+const HQTrivia = require('hqtrivia-api-v2')
 const hq = new HQTrivia('[token]')
 let question
 let answers = []
@@ -163,7 +163,7 @@ if (dailyTrivia.error) {
 
 ## Register Example
 ```js
-const HQTrivia = require('hqtrivia-api')
+const HQTrivia = require('hqtrivia-api-v2')
 const hq = new HQTrivia()
 
 await hq.sendCode('+11111111111', [referral code])
