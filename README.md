@@ -60,7 +60,7 @@ Most functions in this api wrapper return raw JSON responses, If any errors occu
 - `hq.connectToDailyTrivia()` - Returns a JSON object containing the gameUuid Which is needed to get the questions and send answers in the daily trivia. Also contains useful information such as the amount of erasers you have and the category of the trivia.
 
 - `hq.getDailyTriviaQuestion(gameUuid)` - Returns a JSON object containing the question text and the possible answer choices. Also cointains the category of the question.
-
+- `hq.sendDailyTriviaAnswer(dailyTriviaUuid, offairAnswerId)` - Send a daily trivia answer
 ## Words Game Methods
 - `hq.sendLetter(roundId, showId, letter)` - Send a letter to HQ
 - `hq.sendWord(roundId, showId, word)` - Send a word to HQ
@@ -178,7 +178,6 @@ if (response.accountRegistred) {
 }
 ```
 ## Todo
-- Add Daily Challenge ("offlineTrivia")
 - Get link to video when joining game
 - Add chat support
 - Add app notification support
