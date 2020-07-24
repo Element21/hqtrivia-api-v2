@@ -277,12 +277,12 @@ class HQTrivia extends EventEmitter {
         }))
     }
 
-    chatVisibility(enable) {
+    chatVisibility(chatState) {
         if (!this.WSConn || this.WSConn.readyState !== WebSocket.OPEN) return {error: 'You are not connected to the game'}
         this.WSConn.send(JSON.stringify({
             type: 'chatVisibilityToggled',
             broadcastId: this.broadcastId,
-            chatVisible: enable
+            chatVisible: chatState
         }))
     }
 
@@ -306,30 +306,14 @@ class HQTrivia extends EventEmitter {
         if (sendReferral.data.error) {
             return sendReferral.data
         }
-        return !!sendCodeRes.data.success
+        return !!sendReferral.data.success
     }
 
     async connectToDailyTrivia() {
         let dailyTriviaUrl = 'https://api-quiz.hype.space/offair-trivia/start-game'
-        dailyTriviaRes = this.axios.post(dailyTriviaUrl)
+        const dailyTriviaRes = this.axios.post(dailyTriviaUrl)
         return dailyTriviaRes.data
     }
-    /*
-    {
-        "gameUuid": "ckczk6fyo058u01l66zbp94c1",
-        "status": "start_game",
-        "questionNumber": 1,
-        "questionCount": 12,
-        "answerResults": [],
-        "category": "Movies",
-        "reminders": [
-            {
-            "sendMs": 14400000,
-            "message": "Looks like you didn’t finish your Daily Challenge. Play now to win rewards!"
-            }
-        ]
-    }
-    */
 
     async getDailyTriviaQuestion(gameUuid) {
         let dailyTriviaQuestion = await this.axios.get(`https://api-quiz.hype.space/offair-trivia/${gameUuid}`)
@@ -342,33 +326,6 @@ class HQTrivia extends EventEmitter {
         })
         return dailyTriviaQuestion.data
     }
-    // {
-    //     "erase1s": 5,
-    //     "gameUuid": "ckczjewmu003i01h1996k44kz",
-    //     "question": {
-    //         "answers": [
-    //             {
-    //                 "offairAnswerId": "cjykhnfgi0xdpdwm29moh3bl6",
-    //                 "text": "Darth Sidious"
-    //             },
-    //             {
-    //                 "offairAnswerId": "cjykhnfgi0xdqdwm2chkcd3a4",
-    //                 "text": "Voldemort"
-    //             },
-    //             {
-    //                 "offairAnswerId": "cjykhnfgi0xdrdwm22ju1h6d0",
-    //                 "text": "Mr. Rogers"
-    //             }
-    //         ],
-    //         "erase1": false,
-    //         "question": "In the “Harry Potter” books, who is known as He Who Must Not Be Named?",
-    //         "questionNumber": 1,
-    //         "timeLeftMs": 10000,
-    //         "totalTimeMs": 10000
-    //     },
-    //     "questionCount": 12
-    // }
-
 
     async connectToGame() {
         let shows = {}

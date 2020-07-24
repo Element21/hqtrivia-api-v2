@@ -141,13 +141,23 @@ hq.on('disconnected', (code) => {
 ```js
 const HQTrivia = require('hqtrivia-api')
 const hq = new HQTrivia('[token]')
+let question
+let answers = []
 
 dailyTrivia = hq.connectToDailyTrivia()
 if (dailyTrivia.error) {
-    console.error(`Error connecting to DailyTrivia\n$(dailyTrivia.error)\n$(dailyTrivia.errorCode)`)
+    console.error(`Error connecting to DailyTrivia With error code $(dailyTrivia.errorCode)\n\n$(dailyTrivia.error)`)
 } else {
     dailyTriviaUuid = dailyTrivia.gameUuid
-    dailyTriviaQuestion = hq.getDailyTriviaQuestion(dailyTriviaUuid)
+    dailyTriviaData = hq.getDailyTriviaQuestion(dailyTriviaUuid)
+    question = dailyTriviaData.question
+    answers = dailyTriviaData.question.answers
+
+    console.log(`Question #${question.questionNumber}/${question.questionCount}`) // Question #1/12
+    console.log(question) // In the “Harry Potter” books, who is known as He Who Must Not Be Named?
+    console.log(answers.map(answer => answer.text).join(' | ')) // Darth Sidious | Voldemort | Mr. Rogers | 
+
+    hq.sendDailyTriviaAnswer(dailyTriviaUuid, answers[2].offairAnswerId)
 }
 ```
 
