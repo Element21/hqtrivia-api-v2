@@ -13,6 +13,15 @@ This is a Node.JS wrapper for HQ Trivia's API
 -or-
 `yarn add hqtrivia-api-v2` (preferred)
 
+## Handling errors
+Most functions in this api wrapper return raw JSON responses, If any errors occur they usually come in the format:
+```
+{
+    "error": "Error message (ex. "Authorization Not Found" for a invalid or unset bearer token)"
+    "errorCode": someNumberz
+}
+```
+
 ## API Methods
 - `hq.getUserData()` - Get the authenticated user data
 - `hq.getShows()` - Get the game schedule
@@ -31,7 +40,7 @@ This is a Node.JS wrapper for HQ Trivia's API
 - `hq.checkUsername(username)` - Check username
 - `hq.makePayout(email)` - Make payout (Have not tested. I think hq uses a captcha for payouts. WILL FIX LATER)
 - `hq.easterEgg()` - Gives you extra life (You can only use every 30 days)
-- `hq.setReferral(referralCode, gameType ['general' = trivia referral, 'sports' = sports referral, 'words' = words referral])` - Add a referral code to an account after register/login
+- `hq.setReferral(referralCode, gameType ['general' = trivia referral, 'sports' = sports referral, 'words' = words referral] THEY ALL USE THE SAME REFERRAL CODE SYNTAX)` - Add a referral code to an account after register/login
 - `hq.checkReferral()` - Check if a referral code is valid
 
 ## Registration methods
@@ -41,16 +50,20 @@ This is a Node.JS wrapper for HQ Trivia's API
 
 
 ## Trivia Game Methods
-- `hq.sendAnswer(answerID, questionId)` - Send answer to HQ
-- `hq.sendSurveyAnswer(answerID, questionId)` - Send survey answer to HQ
+- `hq.sendAnswer(answerID, questionId)` - Send an answer to HQ
+- `hq.sendSurveyAnswer(answerID, questionId)` - Send a survey answer to HQ
 - `hq.useExtralive(questionId)` - Use extra live
-- `hq.sendEraser(questionId)` - Use eraser
+- `hq.useEraser(questionId)` - Use eraser
 - `hq.getErasers(friendIds)` - Get erasers
 
+## Daily Trivia Methods
+- `hq.connectToDailyTrivia()` - Returns a JSON object containing the gameUuid Which is needed to get the questions and send answers in the daily trivia. Also contains useful information such as the amount of erasers you have and the category of the trivia.
+
+- `hq.getDailyTriviaQuestion(gameUuid)` - Returns a JSON object containing the question text and the possible answer choices. Also cointains the category of the question.
 
 ## Words Game Methods
-- `hq.sendLetter(roundId, showId, letter)` - Send letter to HQ
-- `hq.sendWord(roundId, showId, word)` - Send word to HQ
+- `hq.sendLetter(roundId, showId, letter)` - Send a letter to HQ
+- `hq.sendWord(roundId, showId, word)` - Send a word to HQ
 
 ## Events
 - `connected` - Called when successfully connected to the game (Words, Trivia)
@@ -64,10 +77,10 @@ This is a Node.JS wrapper for HQ Trivia's API
 - `letterReveal` - Called when letter reveal (Words)
 - `endRound` - Called when round ends (Words)
 - `showWheel` - Called when wheel shows (Words)
-- `hideWheel` - Called when wheel hideens (Words)
+- `hideWheel` - Called when wheel becomes hidden (Words)
 - `guessResponse` - Called after sending a letter or word (Words)
 
-## Trivia Example 1
+## Trivia Example
 ```js
 const HQTrivia = require('hqtrivia-api')
 const hq = new HQTrivia('[token]')
@@ -91,7 +104,7 @@ hq.on('disconnected', (code) => {
 })
 ```
 
-## Words Example 1
+## Words Example
 ```js
 const HQTrivia = require('hqtrivia-api')
 const hq = new HQTrivia('[token]')
@@ -123,7 +136,22 @@ hq.on('disconnected', (code) => {
     console.log('Disconnected from HQ WS')
 })
 ```
-## Register example
+
+## Daily Trivia Example
+```js
+const HQTrivia = require('hqtrivia-api')
+const hq = new HQTrivia('[token]')
+
+dailyTrivia = hq.connectToDailyTrivia()
+if (dailyTrivia.error) {
+    console.error(`Error connecting to DailyTrivia\n$(dailyTrivia.error)\n$(dailyTrivia.errorCode)`)
+} else {
+    dailyTriviaUuid = dailyTrivia.gameUuid
+    dailyTriviaQuestion = hq.getDailyTriviaQuestion(dailyTriviaUuid)
+}
+```
+
+## Register Example
 ```js
 const HQTrivia = require('hqtrivia-api')
 const hq = new HQTrivia()
