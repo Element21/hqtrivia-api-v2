@@ -72,7 +72,7 @@ class HQTrivia extends EventEmitter {
                 token: confirmCodeRes.data.auth.accessToken
             }
         } else {
-            throw new {error: 'Unknown API Error'}
+            return { error: 'Unknown API Error', errorCode: 0 }
         }
     }
 
@@ -92,7 +92,7 @@ class HQTrivia extends EventEmitter {
         if (registerRes.data.accessToken) {
             return registerRes.data.accessToken
         } else {
-            return {error: 'Unknown API Error'}
+            return { error: 'Unknown API Error', errorCode: 0 }
         }
     }
 
@@ -107,7 +107,7 @@ class HQTrivia extends EventEmitter {
     }
 
     async getShows() {
-        const shows = await this.axios.get('shows/schedule')
+        const shows = await this.axios.get('/shows/schedule')
         return shows.data
     }
 
@@ -335,10 +335,10 @@ class HQTrivia extends EventEmitter {
         this.WSConn = new WebSocket(shows.broadcast.socketUrl, {
             headers: this.headers
         })
-        var pingInterval
+        let pingInterval
 
         this.WSConn.on('open', () => {
-            pingInterval = setInterval(this.WSConn.ping, 10000)
+            pingInterval = setInterval(this.WSConn.ping, 5000)
             this.broadcastId = parseInt(shows.broadcast.broadcastId)
             if (shows.nextShowVertical === 'words') {
                 this.gameType = 'words'

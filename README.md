@@ -34,7 +34,7 @@ Most functions in this api wrapper return raw JSON responses, If any errors occu
 - `hq.getIncomingFriendRequests()` - Get incoming friend requests
 - `hq.connectToGame()` - Connect to the game
 - `hq.disconnectFromGame()` - Disconnect from the game
-- `hq.getUpcomingSchedule()` - Get upcoming games schedule
+- `hq.getShows()` - Get upcoming games schedule
 - `hq.setToken(token)` - Sets token for requests
 - `hq.changeUsername(username)` - Change username
 - `hq.checkUsername(username)` - Check username
@@ -61,24 +61,26 @@ Most functions in this api wrapper return raw JSON responses, If any errors occu
 
 - `hq.getDailyTriviaQuestion(gameUuid)` - Returns a JSON object containing the question text and the possible answer choices. Also cointains the category of the question.
 - `hq.sendDailyTriviaAnswer(dailyTriviaUuid, offairAnswerId)` - Send a daily trivia answer
+
 ## Words Game Methods
 - `hq.sendLetter(roundId, showId, letter)` - Send a letter to HQ
 - `hq.sendWord(roundId, showId, word)` - Send a word to HQ
 
 ## Events
-- `connected` - Called when successfully connected to the game (Words, Trivia)
-- `disconnected` - Called when disconnected from the game (Words, Trivia)
-- `question` - Called when a question is received from the server (Trivia)
-- `questionClosed` - Called when a question is closed (Trivia)
-- `questionSummary` - Called when the summary of a question is received from the server (Trivia)
-- `questionFinished` - Called when question is finished (Trivia)
-- `gameStatus` - Called when the game status is received from the server (Words, Trivia)
-- `startRound` - Called when the round starts (Words)
-- `letterReveal` - Called when letter reveal (Words)
-- `endRound` - Called when round ends (Words)
-- `showWheel` - Called when wheel shows (Words)
-- `hideWheel` - Called when wheel becomes hidden (Words)
-- `guessResponse` - Called after sending a letter or word (Words)
+- `connected` - Called when successfully connected to the game. (Words, Trivia)
+- `disconnected` - Called when disconnected from the game. (Words, Trivia)
+- `message` - Called when the client receives a message from the server. (Api)
+- `question` - Called when a question is received from the server. (Trivia)
+- `questionClosed` - Called when a question is closed. (Trivia)
+- `questionSummary` - Called when the summary of a question is received from the server. (Trivia)
+- `questionFinished` - Called when question is finished. (Trivia)
+- `gameStatus` - Called when the game status is received from the server. (Words, Trivia)
+- `startRound` - Called when the round starts. (Words)
+- `letterReveal` - Called when letter reveal. (Words)
+- `endRound` - Called when round ends. (Words)
+- `showWheel` - Called when wheel shows. (Words)
+- `hideWheel` - Called when wheel becomes hidden. (Words)
+- `guessResponse` - Called after sending a letter or word. (Words)
 
 ## Trivia Example
 ```js
@@ -166,7 +168,7 @@ if (dailyTrivia.error) {
 const HQTrivia = require('hqtrivia-api-v2')
 const hq = new HQTrivia()
 
-await hq.sendCode('+11111111111', [referral code])
+await hq.sendCode('+11111111111', [referralCode])
 const response = await hq.confirmCode('0228')
 if (response.accountRegistred) {
     console.log(`token: ${response.token}`)
@@ -181,5 +183,3 @@ if (response.accountRegistred) {
 - Get link to video when joining game
 - Add chat support
 - Add app notification support
-- Update some ws stuff
-- Add some EPIC tests
