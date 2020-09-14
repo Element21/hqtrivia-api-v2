@@ -8,12 +8,11 @@ class HQTrivia extends EventEmitter {
         super()
         this.token = token
         this.headers = {
-            'x-hq-client': 'Android/1.49.9',
+            'x-hq-client': 'Android/1.50.0',
             'x-hq-country': 'US',
             'x-hq-lang': 'en',
             'x-hq-timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-            ...this.token ? {'authorization': `Bearer ${token}`} : {},
-            'accept-encoding': 'identity'
+            ...this.token ? {'authorization': `Bearer ${token}`} : {}
         }
         this.axios = axios.create({
             baseURL: apiURL,
@@ -25,13 +24,12 @@ class HQTrivia extends EventEmitter {
 
     setToken(token) {
         this.headers = {
-            'user-agent': 'Android/1.49.9',
-            'x-hq-client': 'Android/1.49.9',
+            'user-agent': 'Android/1.50.0',
+            'x-hq-client': 'Android/1.50.0',
             'x-hq-country': 'US',
             'x-hq-lang': 'en',
             'x-hq-timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-            'authorization': `Bearer ${token}`,
-            'accept-encoding': 'identity'
+            'authorization': `Bearer ${token}`
         }
         this.token = token
     }
