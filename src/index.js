@@ -8,7 +8,7 @@ class HQTrivia extends EventEmitter {
         super()
         this.token = token
         this.headers = {
-            'x-hq-client': 'Android/1.50.0',
+            'x-hq-client': 'Android/1.52.3',
             'x-hq-country': 'US',
             'x-hq-lang': 'en',
             'x-hq-timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
